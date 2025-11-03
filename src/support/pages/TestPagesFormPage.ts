@@ -7,24 +7,26 @@ export class TestPagesFormPage {
     this.page = page;
   }
 
+
   async navigate() {
     await this.page.goto('https://testpages.eviltester.com/pages/forms/html-form/');
+    await this.page.waitForSelector('input[name="username"]', { timeout: 10000 });
   }
 
-  async fillForm(name: string, comments: string) {
-    await this.page.fill('#forename', name);
-    await this.page.fill('#comments', comments);
+
+  async fillForm(username: string, password: string, comments: string) {
+    await this.page.fill('input[name="username"]', username);
+    await this.page.fill('input[name="password"]', password);
+    await this.page.fill('textarea[name="comments"]', comments);
   }
 
-  async selectCheckbox(option: string) {
-    await this.page.check(`#${option}`);
-  }
 
   async submit() {
-    await this.page.click('input[type="submit"]');
+    await this.page.click('input[name="submitbutton"]'); 
   }
 
+
   async getSubmissionResult() {
-    return await this.page.textContent('#_message');
+    return await this.page.textContent('#_message'); 
   }
 }
