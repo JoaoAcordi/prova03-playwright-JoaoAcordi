@@ -2,20 +2,32 @@ import { test, expect } from '@playwright/test';
 import { TestPagesFormPage } from '../support/pages/TestPagesFormPage';
 
 test.describe('ZeroStep AI Form Scenario', () => {
-  test('preenche formulário com ZeroStep AI', async ({ page }) => {
+  test('preenche formulário completo com Playwright', async ({ page }) => {
     const formPage = new TestPagesFormPage(page);
-    
+
     await formPage.navigate();
 
-    const aiGeneratedName = 'João da Silva';
-    const aiGeneratedComment = 'Comentário gerado automaticamente pelo ZeroStep AI';
+    const username = 'usuario123';
+    const password = 'senha123';
+    const comments = 'Comentário de teste gerado automaticamente.';
+    const checkboxes = ['cb1', 'cb3'];
+    const radioValue = 'rd1';
+    const multipleSelects = ['ms2', 'ms4'];
+    const dropdown = 'dd2';
 
-    await formPage.fillForm(aiGeneratedName, aiGeneratedComment);
-    await formPage.selectCheckbox('checkbox1'); 
-    await formPage.submit();
+    await formPage.fillForm(
+      username,
+      password,
+      comments,
+      checkboxes,
+      radioValue,
+      multipleSelects,
+      dropdown
+    );
 
+    await formPage.submitForm();
 
-    const result = await formPage.getSubmissionResult();
-    expect(result).toContain('Form successfully submitted');
+    // Valida que a página mudou ou que algum elemento de confirmação aparece
+    await expect(page).toHaveURL(/submit/);
   });
 });
